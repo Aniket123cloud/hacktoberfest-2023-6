@@ -1,0 +1,41 @@
+We define f (X, Y) as number of different corresponding bits in binary representation of X and Y. For example, f (2, 7) = 2, since binary representation of 2 and 7 are 010 and 111, respectively. The first and the third bit differ, so f (2, 7) = 2.
+
+You are given an array A of N integers, A1, A2 ,…, AN. Find sum of f(Ai, Aj) for all ordered pairs (i, j) such that 1 ≤ i, j ≤ N. Return the answer modulo 109+7.
+
+Example 1:
+
+Input: N = 2
+A = {2, 4}
+Output: 4
+Explaintion: We return 
+f(2, 2) + f(2, 4) + 
+f(4, 2) + f(4, 4) = 
+0 + 2 + 
+2 + 0 = 4.
+
+
+def countBits(num):
+    count = 0
+    while num > 0:
+        count += num & 1
+        num >>= 1
+    return count
+
+def totalBitwiseDifferenceSum(N, A):
+    MOD = 10**9 + 7
+    total_sum = 0
+
+    for i in range(32):  # Consider 32 bits for integers in Python (e.g., 32-bit integers).
+        ones_count = 0
+        for num in A:
+            ones_count += (num >> i) & 1
+
+        total_sum = (total_sum + (ones_count * (N - ones_count) * 2)) % MOD
+
+    return total_sum
+
+# Example usage:
+N = 2
+A = [2, 4]
+result = totalBitwiseDifferenceSum(N, A)
+print(result)  # Output: 4
